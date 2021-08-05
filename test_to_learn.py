@@ -5,4 +5,4 @@ browser = webdriver.Firefox()
 browser.get('http://localhost:8000')
 
 
-assert browser.page_source.find("install")
+assert browser.page_source.find("Enter")

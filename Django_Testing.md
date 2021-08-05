@@ -100,14 +100,17 @@ pip install selenium
 
 Selenium requires a driver to interface with the chosen browser. Firefox, for example, requires geckodriver, which needs to be installed before the below examples can be run. Make sure it’s in your PATH, e. g., place it in /usr/bin or /usr/local/bin.
 
+- How to install Firefox:
+https://www.mozilla.org/en-US/firefox/new/
+
 Failure to observe this step will give you an error selenium.common.exceptions.WebDriverException: Message: ‘geckodriver’ executable needs to be in PATH.
 
 Other supported browsers will have their own drivers available. Links to some of the more popular browser drivers follow.
 
-Chrome:	https://sites.google.com/a/chromium.org/chromedriver/downloads
-Edge:	https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/
-Firefox:	https://github.com/mozilla/geckodriver/releases
-Safari:	https://webkit.org/blog/6900/webdriver-support-in-safari-10/
+- Chrome:	https://sites.google.com/a/chromium.org/chromedriver/downloads
+- Edge:	https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/
+- Firefox:	https://github.com/mozilla/geckodriver/releases
+- Safari:	https://webkit.org/blog/6900/webdriver-support-in-safari-10/
 
 (Optional)
 - Go to:
@@ -121,6 +124,7 @@ https://sites.google.com/a/chromium.org/chromedriver/downloads
 - Unzip downloaded file,
 - Put chromedriver.exe inside /env/bin/ for mac, linux or /env/Sripts/ for windows.
 
+###  Install geckodriver
 - Go to:
 https://github.com/mozilla/geckodriver/releases
 - Scroll down,
@@ -266,8 +270,6 @@ The default startapp template creates a tests.py file in the new application. Th
 
 Test discovery is based on the unittest module’s built-in test discovery. By default, this will discover tests in any file named “test*.py” under the current working directory.
 
-If there is a sp
-
 You can specify particular tests to run by supplying any number of “test labels” to ./manage.py test. Each test label can be a full Python dotted path to a package, module, TestCase subclass, or test method. For instance:
 ```
 # Run all the tests in the animals.tests module
@@ -286,6 +288,12 @@ $ ./manage.py test animals.tests.AnimalTestCase.test_animals_can_speak
 ```py
 python manage.py test
 ```
+
+### class TestCase
+
+This is the most common class to use for writing tests in Django. If your Django application doesn’t use a database, use SimpleTestCase.
+
+More information about [Provided test case classes](https://docs.djangoproject.com/en/3.2/topics/testing/tools/#provided-test-case-classes)
 
 ## Hashing
 
@@ -564,6 +572,8 @@ import hashlib
 def test_hash_func_works(self):
         # Need to import haslib library to generate hash
         text_hash = hashlib.sha256('hello'.encode('utf-8')).hexdigest()
+        # hash.hexdigest() Like digest() except the digest is returned as a string object of double length, containing only hexadecimal digits. This may be used to exchange the value safely in email or other non-binary environments.
+        # Info about hashlib: https://docs.python.org/3/library/hashlib.html
         # Check our result equals to the true one
         # Go to any of the website to generate hash
         self.assertEqual('2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824', text_hash)
@@ -595,6 +605,18 @@ python manage.py makemigrations
 
 # Send model change to the admin dashboard
 python manage.py migrate
+```
+- To pass this model to admin page, go to admin.py and add:
+```py
+from hashing.models import Hash
+from django.contrib import admin
+
+admin.site.register(Hash)
+```
+- And modify the model to see better name:
+```py
+    def __str__(self) -> str:
+        return self.text + ' ' + self.hash 
 ```
 
 - Now we have a model, time to test it
@@ -863,7 +885,7 @@ python manage.py test
 
 ## Next steps
 - Look at selenium recorder
-- Look at coverage tools
+- Look at code coverage tools
 - Try tests on your own projects
 - Deploy you code
 - Learn deployment automation, ansible etc.

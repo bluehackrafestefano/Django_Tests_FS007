@@ -1,3 +1,4 @@
+from hashing.models import Hash
 from django.contrib import admin
 
-# Register your models here.
+admin.site.register(Hash)
